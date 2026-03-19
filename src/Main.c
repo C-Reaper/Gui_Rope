@@ -28,7 +28,7 @@ void Update(AlxWindow* w){
         selected = NULL;
     }
 
-    Rope_Update(&rope,w->ElapsedTime);
+    Rope_Update(&rope,F32_Min(w->ElapsedTime,0.5f));
 
     Clear(BLACK);
 
