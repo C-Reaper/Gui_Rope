@@ -8,7 +8,7 @@ void Setup(AlxWindow* w){
     rope = Rope_New(
         (Vec2){ 0.0f,0.0f },
         (Vec2){ 0.0f,10.0f },
-        10,
+        100,
         0.1f,
         100.0f
     );
