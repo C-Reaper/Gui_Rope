@@ -1,24 +1,41 @@
 #include "/home/codeleaded/System/Static/Library/WindowEngine.h"
-#include "/home/codeleaded/System/Static/Library/Rope.h"
+#include "/home/codeleaded/System/Static/Library/Elastic.h"
 
-Rope rope;
-Particle* selected;
+Elastic env;
+Elastic_Particle* selected;
 
 void Setup(AlxWindow* w){
-    rope = Rope_New(
-        (Vec2){ 0.0f,0.0f },
-        (Vec2){ 0.0f,10.0f },
-        10000,
-        0.1f,
-        100.0f
+    env = Elastic_New((Vec2){ 0.0f,0.0f });
+
+    //Elastic_Add(
+    //    &env,
+    //    (Elastic_Rope[]){ Elastic_Rope_New(
+    //        (Vec2){ 0.0f,0.0f },
+    //        1000,
+    //        0.1f,
+    //        100.0f
+    //    )},
+    //    sizeof(Elastic_Rope)
+    //);
+
+    Elastic_Add(
+        &env,
+        (Elastic_Shape[]){ Elastic_Rect_New(
+            (Vec2){ 0.0f,0.0f },
+            150,
+            150,
+            0.1f,
+            100.0f
+        )},
+        sizeof(Elastic_Shape)
     );
 }
 void Update(AlxWindow* w){
-    TransformedView_HandlePanZoom(&rope.tv,w->Strokes,GetMouse());
-    const Vec2 m = TransformedView_ScreenWorldPos(&rope.tv,GetMouse());
+    TransformedView_HandlePanZoom(&env.tv,w->Strokes,GetMouse());
+    const Vec2 m = TransformedView_ScreenWorldPos(&env.tv,GetMouse());
 
     if(Stroke(ALX_MOUSE_L).PRESSED){
-        selected = Rope_Interact(&rope,m);
+        selected = Elastic_Interact(&env,m);
     }else if(Stroke(ALX_MOUSE_L).DOWN){
         if(selected){
             selected->pos = m;
@@ -29,29 +46,24 @@ void Update(AlxWindow* w){
     }
     
     if(Stroke(ALX_MOUSE_R).PRESSED){
-        Particle* found = Rope_Interact(&rope,m);
+        Elastic_Particle* found = Elastic_Interact(&env,m);
         if(found){
             found->fixed = !found->fixed;
         }
     }
 
-    Rope_Update(&rope,F32_Min(w->ElapsedTime,0.5f));
-
-    for(int i = 0;i<rope.particles.size;i++){
-        Particle* p0 = (Particle*)Vector_Get(&rope.particles,i);
-        if(p0->pos.y > 100.0f) p0->pos.y = 100.0f;
-    }
+    Elastic_Update(&env,F32_Min(w->ElapsedTime,0.5f));
 
     Clear(BLACK);
 
-    Rope_Render(&rope,WINDOW_STD_ARGS);
+    Elastic_Render(&env,WINDOW_STD_ARGS);
 }
 void Delete(AlxWindow* w){
-    Rope_Free(&rope);
+    Elastic_Free(&env);
 }
 
 int main() {
-    if(Create("Rope",1900,1000,1,1,Setup,Update,Delete)){
+    if(Create("Elastic Simulation",1900,1000,1,1,Setup,Update,Delete)){
         Start();
     }
     return 0;

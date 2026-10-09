@@ -1,12 +1,12 @@
 # Project README
 
 ## Overview
-This project is a simple 2D rope simulation built using C and a custom graphics library. The user can interact with the rope by clicking and dragging on its segments.
+This project is a simple 2D elastic simulation built using C and a custom graphics library. The user can interact with the elastic by clicking and dragging on its segments.
 
 ## Features
-- 2D graphical representation of a rope.
-- Interactive dragging of rope segments.
-- Simple physics-based movement of the rope.
+- 2D graphical representation of a elastic.
+- Interactive dragging of elastic segments.
+- Simple physics-based movement of the elastic.
 
 ## Project Structure
 ```
