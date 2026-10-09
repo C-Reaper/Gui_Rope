@@ -8,7 +8,7 @@ void Setup(AlxWindow* w){
     rope = Rope_New(
         (Vec2){ 0.0f,0.0f },
         (Vec2){ 0.0f,10.0f },
-        30,
+        10000,
         0.1f,
         100.0f
     );
@@ -27,8 +27,20 @@ void Update(AlxWindow* w){
     }else if(Stroke(ALX_MOUSE_L).RELEASED){
         selected = NULL;
     }
+    
+    if(Stroke(ALX_MOUSE_R).PRESSED){
+        Particle* found = Rope_Interact(&rope,m);
+        if(found){
+            found->fixed = !found->fixed;
+        }
+    }
 
     Rope_Update(&rope,F32_Min(w->ElapsedTime,0.5f));
+
+    for(int i = 0;i<rope.particles.size;i++){
+        Particle* p0 = (Particle*)Vector_Get(&rope.particles,i);
+        if(p0->pos.y > 100.0f) p0->pos.y = 100.0f;
+    }
 
     Clear(BLACK);
 

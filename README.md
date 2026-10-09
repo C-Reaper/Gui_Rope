@@ -14,7 +14,6 @@ This project is a simple 2D rope simulation built using C and a custom graphics 
 ├── build/              # .exe files produced by Main.c
 ├── src/                # source code
 │   ├── Main.c          # Entry point
-│   └── Rope.h          # Header file for the rope module
 ├── Makefile.linux      # Linux Build configuration
 ├── Makefile.windows    # Windows Build configuration
 ├── Makefile.wine       # Wine Build configuration
